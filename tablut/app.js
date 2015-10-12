@@ -19,11 +19,7 @@ var tablut = {
 	enemyColor: "W",
 	highlighted: false,
 	$leaving: null,
-	pieceSelected: {
-//		row: null,
-//		column: null,
-		letter: null
-	},
+	pieceSelected: null,
 	movingFrom: [null, null],
 	moveDirection: null,
 	movingTo: {
@@ -78,10 +74,10 @@ function highlight(square){
 	tablut.movingFrom[0] = parseInt(square.attr("data-row"));
 	tablut.movingFrom[1] = parseInt(square.attr("data-column"));
 
-	tablut.pieceSelected.letter = square.text();
+	tablut.pieceSelected = square.text();
 	square.toggleClass("highlighted");
 	tablut.highlighted = true;
-	console.log("Selected " + tablut.pieceSelected.letter + " at " + tablut.movingFrom);
+	console.log("Selected " + tablut.pieceSelected + " at " + tablut.movingFrom);
 	tablut.$leaving = square;	
 }
 
@@ -170,7 +166,7 @@ function horizontalMove(square) {
 	if (goingToColumn > comingFromColumn){
 		for (var i = comingFromColumn + 1; i < goingToColumn; i++){
 			var intermediateSquare = tablut.board[tablut.movingFrom[0]][i];
-			if (intermediateSquare !== null){
+			if (intermediateSquare === "B" || intermediateSquare === "W" || intermediateSquare === "K"){
 				console.log("There are intervening pieces.")
 				return false;
 			}
@@ -180,7 +176,7 @@ function horizontalMove(square) {
 	} else if (comingFromColumn > goingToColumn){
 		for (var i = comingFromColumn - 1; i > goingToColumn; i--){
 			var intermediateSquare = tablut.board[tablut.movingFrom[0]][i];
-			if (intermediateSquare !== null){
+			if (intermediateSquare === "B" || intermediateSquare === "W" || intermediateSquare === "K"){
 				console.log("There are intervening pieces.")
 				return false;
 			}
@@ -198,7 +194,7 @@ function verticalMove(square){
 	if (goingToRow > comingFromRow){
 		for (var i = comingFromRow + 1; i < goingToRow; i++){
 			var intermediateSquare = tablut.board[i][tablut.movingFrom[1]];
-			if (intermediateSquare !== null){
+			if (intermediateSquare === "B" || intermediateSquare === "W" || intermediateSquare === "K"){
 				console.log("There are intervening pieces.")
 				return false;
 			}
@@ -208,7 +204,7 @@ function verticalMove(square){
 	} else if (comingFromRow > goingToRow){
 		for (var i = comingFromRow - 1; i > goingToRow; i--){
 			var intermediateSquare = tablut.board[i][tablut.movingFrom[1]];
-			if (intermediateSquare !== null){
+			if (intermediateSquare === "B" || intermediateSquare === "W" || intermediateSquare === "K"){
 				console.log("There are intervening pieces.")
 				return false;
 			}
@@ -224,9 +220,9 @@ function movePieceTo(square){
 	tablut.movingTo.row = parseInt(square.attr("data-row"));
 	tablut.movingTo.column = parseInt(square.attr("data-column"));
 	console.log("Moving to: " + tablut.movingTo.row + ", " + tablut.movingTo.column);
-	square.text(tablut.pieceSelected.letter);
-	tablut.board[tablut.movingTo.row][tablut.movingTo.column] = tablut.pieceSelected.letter;
-	if (tablut.pieceSelected.letter === "K"){
+	square.text(tablut.pieceSelected);
+	tablut.board[tablut.movingTo.row][tablut.movingTo.column] = tablut.pieceSelected;
+	if (tablut.pieceSelected === "K"){
 		tablut.kingIsAt.row = tablut.movingTo.row;
 		tablut.kingIsAt.column = tablut.movingTo.column;
 	}
@@ -244,40 +240,44 @@ function checkForCaptures(square){
 
 function lookNorth(){
 	if (tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] === tablut.enemyColor){
-		checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row - 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
-		if (tablut.board[tablut.movingTo.row - 2][tablut.movingTo.column] === tablut.homeColor || "shaded"){
+		var $checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row - 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
+		var nextSquare = tablut.board[tablut.movingTo.row - 2][tablut.movingTo.column];
+		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
 			tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] = null;
-			checkingSquare.text("");
+			$checkingSquare.text("");
 		}
 	} 
 }
 
 function lookEast(){
 	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] === tablut.enemyColor){
-		checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column + 1) + ")");
-		if (tablut.board[tablut.movingTo.row][tablut.movingTo.column + 2] === tablut.homeColor || "shaded"){
+		var $checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column + 1) + ")");
+		var nextSquare = tablut.board[tablut.movingTo.row][tablut.movingTo.column + 2];
+		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
 			tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] = null;
-			checkingSquare.text("");
+			$checkingSquare.text("");
 		}
 	}
 }
 
 function lookSouth(){
 	if (tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] === tablut.enemyColor){
-		checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row + 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
-		if (tablut.board[tablut.movingTo.row + 2][tablut.movingTo.column] === tablut.homeColor || "shaded"){
+		var $checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row + 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
+		var nextSquare = tablut.board[tablut.movingTo.row + 2][tablut.movingTo.column];
+		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
 			tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] = null;
-			checkingSquare.text("");
+			$checkingSquare.text("");
 		}
 	}
 }
 
 function lookWest(){
 	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] === tablut.enemyColor){
-		checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column - 1) + ")");
-		if (tablut.board[tablut.movingTo.row][tablut.movingTo.column - 2] === tablut.homeColor || "shaded"){
+		var $checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column - 1) + ")");
+		var nextSquare = tablut.board[tablut.movingTo.row][tablut.movingTo.column - 2];
+		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
 			tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] = null;
-			checkingSquare.text("");
+			$checkingSquare.text("");
 		}
 	}
 }
@@ -297,13 +297,13 @@ function wipeVacated(){
 	tablut.$leaving = null;
 	// tablut.pieceSelected.row = null;
 	// tablut.pieceSelected.column = null;
-	tablut.pieceSelected.letter = null;
+	tablut.pieceSelected = null;
 }
 
 
 function leavingShadedSquare(){
 	var shadedSquares = ["1,4" , "1,5" , "1,6" , "2,5" , "4,1" , "4,9" , "5,1" , "5,2" , "5,5" , "5,8" , "5,9" , "6,1" , "6,9" , "8,5" , "9,4" , "9,5" , "9,6"]
-	if (shadedSquares.indexOf(tablut.movingFrom.toString() )){
+	if (shadedSquares.indexOf(tablut.movingFrom.toString()) !== -1){
 		console.log("Leaving shaded square.");
 		return true;
 	}
