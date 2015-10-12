@@ -37,6 +37,15 @@ function listenForClicks(){
 		var $square = $(this);
 		clickedOn($square);
 	})
+	$("img").on("click", function(){
+		var $piece = $(this);
+		clickedImage($piece);
+	})
+}
+
+
+function clickedImage($piece){
+	console.log($piece);
 }
 
 
