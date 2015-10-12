@@ -142,7 +142,6 @@ function matchesGridPosition(){
 
 function shadyShortMove(){
 	if (leavingShadedSquare() && shortMove()){
-		console.log("Shady move.");
 		return true;
 	}
 }
@@ -241,8 +240,6 @@ function movePieceTo($element){
 }
 
 
-// MORE WET CODE
-
 function checkForCaptures(square){
 	lookNorth();
 	lookEast();
@@ -253,10 +250,11 @@ function checkForCaptures(square){
 function lookNorth(){
 	if (tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] === tablut.enemyColor){
 		var $checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row - 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
+		var $checkingPiece = $("tr:nth-child(" + (tablut.movingTo.row - 1) + ") td:nth-child(" + tablut.movingTo.column + ") > img");
 		var nextSquare = tablut.board[tablut.movingTo.row - 2][tablut.movingTo.column];
 		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
 			tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] = null;
-			$checkingSquare.text("");
+			capture($checkingSquare, $checkingPiece);
 		}
 	} 
 }
@@ -264,10 +262,11 @@ function lookNorth(){
 function lookEast(){
 	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] === tablut.enemyColor){
 		var $checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column + 1) + ")");
+		var $checkingPiece = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column + 1) + ") > img");
 		var nextSquare = tablut.board[tablut.movingTo.row][tablut.movingTo.column + 2];
 		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
 			tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] = null;
-			$checkingSquare.text("");
+			capture($checkingSquare, $checkingPiece);
 		}
 	}
 }
@@ -275,10 +274,11 @@ function lookEast(){
 function lookSouth(){
 	if (tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] === tablut.enemyColor){
 		var $checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row + 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
+		var $checkingPiece = $("tr:nth-child(" + (tablut.movingTo.row + 1) + ") td:nth-child(" + tablut.movingTo.column + ") > img");
 		var nextSquare = tablut.board[tablut.movingTo.row + 2][tablut.movingTo.column];
 		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
 			tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] = null;
-			$checkingSquare.text("");
+			capture($checkingSquare, $checkingPiece);
 		}
 	}
 }
@@ -286,22 +286,31 @@ function lookSouth(){
 function lookWest(){
 	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] === tablut.enemyColor){
 		var $checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column - 1) + ")");
+		var $checkingPiece = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column - 1) + ") > img");
 		var nextSquare = tablut.board[tablut.movingTo.row][tablut.movingTo.column - 2];
 		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
 			tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] = null;
-			$checkingSquare.text("");
+			capture($checkingSquare, $checkingPiece);
 		}
 	}
 }
 
-// END OF WET CODE
+
+function capture($square, $piece){
+	$square.toggleClass("red");
+	$piece.fadeOut();
+	setTimeout(function(){ 
+  	$square.toggleClass("red"); 
+	}, 400);
+}
 
 
 function wipeVacated(){
 
-	var $leftSquare = $("tr:nth-child(" + tablut.movingFrom[0] + ") td:nth-child(" + tablut.movingFrom[1] + ")");
-	$leftSquare.text("");
+	var $leftSquare = $("tr:nth-child(" + tablut.movingFrom[0] + ") td:nth-child(" + tablut.movingFrom[1]);
 	$leftSquare.toggleClass("highlighted");
+	var $oldImage = $("tr:nth-child(" + tablut.movingFrom[0] + ") td:nth-child(" + tablut.movingFrom[1] + ") > img");
+	$oldImage.fadeOut();
 	if (leavingShadedSquare() ){
 		tablut.board[tablut.movingFrom[0]][tablut.movingFrom[1]] = "shaded";
 	} else {
@@ -352,6 +361,8 @@ function switchTurns(){
 function checkForWhiteWin(){
 	if (tablut.kingIsAt.row === 1 || tablut.kingIsAt.row === 9 || tablut.kingIsAt.column === 1 || tablut.kingIsAt.column === 9) {
 		$(".status-text").text("The King escapes! White wins the game.");
+		var $winningSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + tablut.movingTo.column + ")");
+		$winningSquare.css("background-color", "deppSkyBlue");
 		tablut.gameOver = true;
 	}
 }
@@ -360,6 +371,8 @@ function checkForWhiteWin(){
 function checkForBlackWin(){
 	if (kingTrappedFromNorth() && kingTrappedFromEast() && kingTrappedFromWest() && kingTrappedFromSouth()){
 			$(".status-text").text("The King is surrounded! Black wins the game.");	
+			var $winningSquare = $("tr:nth-child(" + tablut.kingIsAt.row + ") td:nth-child(" + tablut.kingIsAt.column + ")");
+			$winningSquare.addClass("red");	
 			tablut.gameOver = true;	
 	}
 }

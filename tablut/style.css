@@ -62,6 +62,11 @@ tr td:first-child {
 	opacity: 0.7;
 }
 
+.red {
+	background-color: fireBrick;
+	opacity: 0.7;
+}
+
 img {
 	margin: 0 0 -13px 0;
 	padding: 0;
