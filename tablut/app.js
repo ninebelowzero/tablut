@@ -115,19 +115,18 @@ function attemptMove($square){
 
 
 function legalMove(){
-	if (available() && matchesGridPosition() && noInterveningPieces()){
+	if (matchesGridPosition() && available() && noInterveningPieces()){
 		return true;
 	}
 }
 
 
 function available(){
-	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column] === null){
-		return true;
-	} else {
-		console.log("Square not available.")
-	}
+	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column] === null) return true;
+	if (shadyShortMove()) return true;
 }
+
+
 
 
 function matchesGridPosition(){
@@ -138,6 +137,21 @@ function matchesGridPosition(){
 		tablut.moveDirection = "vertical";
 		return true;
 	}
+}
+
+
+function shadyShortMove(){
+	if (leavingShadedSquare() && shortMove()){
+		console.log("Shady move.");
+		return true;
+	}
+}
+
+function shortMove() {
+	if (tablut.movingTo.row - tablut.movingFrom[0] > 0 && tablut.movingTo.row - tablut.movingFrom[0] < 3) return true;
+	if (tablut.movingFrom[0] - tablut.movingTo.row > 0 && tablut.movingFrom[0] - tablut.movingTo.row < 3) return true;
+	if (tablut.movingTo.column - tablut.movingFrom[1] > 0 && tablut.movingTo.column - tablut.movingFrom[1] < 3) return true;
+	if (tablut.movingFrom[1] - tablut.movingTo.column > 0 && tablut.movingFrom[1] - tablut.movingTo.column < 3) return true;
 }
 
 
