@@ -1,0 +1,39 @@
+body {
+    background-color: AntiqueWhite;
+    font-family: "Courier New";
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.container {
+    width: 600px;
+    height: 600px;
+    margin: 50px auto;
+}
+
+.status-text {
+    width: 600px;
+    height: 60px;
+    margin: 0 auto;
+    font-size: 20px;
+}
+
+table {
+    margin: 0 auto;
+}
+
+td {
+    border: 1px solid black;
+    margin: 0;
+    height: 60px;
+    width: 60px;
+}
+
+.shaded {
+    background-color: DarkGray;
+}
+
+.highlighted {
+    background-color: white;
+}
