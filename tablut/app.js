@@ -34,37 +34,29 @@ var tablut = {
 
 function listenForClicks(){
 	$("td").on("click", function(){
-		var $square = $(this);
-		clickedOn($square);
-	})
-	$("img").on("click", function(){
-		var $piece = $(this);
-		clickedImage($piece);
+		var $element = $(this);
+		clickedOn($element);
 	})
 }
 
 
-function clickedImage($piece){
-	console.log($piece);
-}
-
-
-function clickedOn($square){
+function clickedOn($element){
+	console.log("Clicked on: " + $element);
 	if (!tablut.gameOver){
 		if (tablut.movingFrom.toString() === ","){
-			selectPiece($square);
+			selectPiece($element);
 		} else {
-			clickedAfterHighlighting($square);
+			clickedAfterHighlighting($element);
 		}
 	}
 }
 
 
-function selectPiece($square){
-	tablut.movingFrom[0] = parseInt($square.attr("data-row"));
-	tablut.movingFrom[1] = parseInt($square.attr("data-column"));
+function selectPiece($element){
+	tablut.movingFrom[0] = parseInt($element.attr("data-row"));
+	tablut.movingFrom[1] = parseInt($element.attr("data-column"));
 	if (legalSelection()){
-		highlight($square);	
+		highlight($element);	
 		tablut.pieceSelected = tablut.board[tablut.movingFrom[0]][tablut.movingFrom[1]];
 		console.log("Selected " + tablut.pieceSelected + " at " + tablut.movingFrom);
 	} else {
@@ -80,38 +72,39 @@ function legalSelection(){
 }
 
 
-function highlight($square){
-	$square.toggleClass("highlighted");
+function highlight($element){
+	$element.toggleClass("highlighted");
 }
 
 
-function unhighlight($square){
-	$square.toggleClass("highlighted");
+function unhighlight($element){
+	$element.toggleClass("highlighted");
 	tablut.movingFrom = [null, null];
 }
 
 
-function clickedAfterHighlighting($square){
-	if (identical($square)){
-		unhighlight($square);
+function clickedAfterHighlighting($element){
+	console.log("Clicked on: " + $element);
+	if (identical($element)){
+		unhighlight($element);
 	} else {
-		attemptMove($square);
+		attemptMove($element);
 	}
 }
 
 
-function identical($square){
-	if (tablut.movingFrom[0] == parseInt($square.attr("data-row")) && tablut.movingFrom[1] == parseInt($square.attr("data-column"))) {
+function identical($element){
+	if (tablut.movingFrom[0] == parseInt($element.attr("data-row")) && tablut.movingFrom[1] == parseInt($element.attr("data-column"))) {
 		return true;
 	} 
 }
 
 
-function attemptMove($square){
-	tablut.movingTo.row = parseInt($square.attr("data-row"));
-	tablut.movingTo.column = parseInt($square.attr("data-column"));
+function attemptMove($element){
+	tablut.movingTo.row = parseInt($element.attr("data-row"));
+	tablut.movingTo.column = parseInt($element.attr("data-column"));
 	if (legalMove()){
-		movePieceTo($square);
+		movePieceTo($element);
 		wipeVacated();
 		checkForCaptures();
 		checkForWins();
@@ -233,13 +226,17 @@ function verticalMove(){
 // END OF WET CODE
 
 
-function movePieceTo($square){
+function movePieceTo($element){
 	tablut.board[tablut.movingTo.row][tablut.movingTo.column] = tablut.pieceSelected;
 	if (tablut.pieceSelected === "K"){
 		tablut.kingIsAt.row = tablut.movingTo.row;
 		tablut.kingIsAt.column = tablut.movingTo.column;
 	}
-	$square.text(tablut.pieceSelected);
+	if (tablut.pieceSelected === "B"){
+		$element.html("<img src='images/black.png'>");
+	} else if (tablut.pieceSelected === "W") {
+		$element.html("<img src='images/white.png'>");
+	}
 	console.log("Moving to: " + tablut.movingTo.row + ", " + tablut.movingTo.column);
 }
 

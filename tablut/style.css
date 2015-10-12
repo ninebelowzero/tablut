@@ -59,7 +59,7 @@ tr td:first-child {
 
 .highlighted {
 	background-color: white;
-	opacity: 0.6;
+	opacity: 0.7;
 }
 
 img {
@@ -68,12 +68,13 @@ img {
 	opacity: 1;
 }
 
-.white {
+.W .K {
 /*	position: absolute;
 	left: 256px;
 	top: 240px;*/
 }
 
-.black {
-	margin-bottom: -4px;
+.B {
+	margin-bottom: 0px;
+	vertical-align: bottom;
 }
