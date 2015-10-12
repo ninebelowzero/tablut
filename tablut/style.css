@@ -9,6 +9,7 @@ body {
 }
 
 .container {
+
     width: 600px;
     height: 600px;
     margin: 50px auto;
@@ -19,6 +20,14 @@ body {
     height: 60px;
     margin: 0 auto;
     font-size: 20px;
+}
+
+.board {
+    position: relative;
+    margin: 0 auto;
+    width: 536px;
+    height: 536px;
+    /*border: 1px solid red;*/
 }
 
 table {
@@ -33,8 +42,8 @@ td {
     border-left: 1px solid #704D10;
     margin: 0;
     padding: 0;
-    height: 60px;
-    width: 60px;
+    height: 58px;
+    width: 58px;
 }
 
 tr:first-child td {
@@ -53,4 +62,16 @@ tr td:first-child {
 .highlighted {
     background-color: white;
     opacity: 0.6;
+}
+
+.white {
+    position: absolute;
+    left: 256px;
+    top: 240px;
+}
+
+.black {
+    position: absolute;
+    left: 256px;
+    top: 4px;
 }
