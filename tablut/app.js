@@ -245,7 +245,7 @@ function checkForCaptures(square){
 function lookNorth(){
 	if (tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] === tablut.enemyColor){
 		checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row - 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
-		if (tablut.board[tablut.movingTo.row - 2][tablut.movingTo.column] === tablut.homeColor){
+		if (tablut.board[tablut.movingTo.row - 2][tablut.movingTo.column] === tablut.homeColor || "shaded"){
 			tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] = null;
 			checkingSquare.text("");
 		}
@@ -255,7 +255,7 @@ function lookNorth(){
 function lookEast(){
 	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] === tablut.enemyColor){
 		checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column + 1) + ")");
-		if (tablut.board[tablut.movingTo.row][tablut.movingTo.column + 2] === tablut.homeColor){
+		if (tablut.board[tablut.movingTo.row][tablut.movingTo.column + 2] === tablut.homeColor || "shaded"){
 			tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] = null;
 			checkingSquare.text("");
 		}
@@ -265,7 +265,7 @@ function lookEast(){
 function lookSouth(){
 	if (tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] === tablut.enemyColor){
 		checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row + 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
-		if (tablut.board[tablut.movingTo.row + 2][tablut.movingTo.column] === tablut.homeColor){
+		if (tablut.board[tablut.movingTo.row + 2][tablut.movingTo.column] === tablut.homeColor || "shaded"){
 			tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] = null;
 			checkingSquare.text("");
 		}
@@ -275,7 +275,7 @@ function lookSouth(){
 function lookWest(){
 	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] === tablut.enemyColor){
 		checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column - 1) + ")");
-		if (tablut.board[tablut.movingTo.row][tablut.movingTo.column - 2] === tablut.homeColor){
+		if (tablut.board[tablut.movingTo.row][tablut.movingTo.column - 2] === tablut.homeColor || "shaded"){
 			tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] = null;
 			checkingSquare.text("");
 		}
@@ -302,8 +302,9 @@ function wipeVacated(){
 
 
 function leavingShadedSquare(){
-	if (tablut.movingFrom.toString() === "1,4" || "1,5" || "1,6" || "2,5" || "4,1" || "4,9" || "5,1" || "5,2" || "5,5" || "5,8" || "5,9" || "6,1" || "6,9" || "8,5" || "9,4" || "9,5" || "9,6"){
-		console.log("Leaving shaded square.")
+	var shadedSquares = ["1,4" , "1,5" , "1,6" , "2,5" , "4,1" , "4,9" , "5,1" , "5,2" , "5,5" , "5,8" , "5,9" , "6,1" , "6,9" , "8,5" , "9,4" , "9,5" , "9,6"]
+	if (shadedSquares.indexOf(tablut.movingFrom.toString() )){
+		console.log("Leaving shaded square.");
 		return true;
 	}
 }
@@ -353,17 +354,21 @@ function checkForBlackWin(){
 }
 
 function kingTrappedFromNorth(){
-	if (tablut.board[tablut.kingIsAt.row][tablut.kingIsAt.column - 1] === "B") return true;
+	var oneSquareNorth = tablut.board[tablut.kingIsAt.row][tablut.kingIsAt.column - 1];
+	if (oneSquareNorth === "B" || oneSquareNorth === "shaded") return true;
 }
 
 function kingTrappedFromEast(){
-	if (tablut.board[tablut.kingIsAt.row + 1][tablut.kingIsAt.column] === "B") return true;
+	var oneSquareEast = tablut.board[tablut.kingIsAt.row + 1][tablut.kingIsAt.column];
+	if (oneSquareEast === "B" || oneSquareEast === "shaded") return true;
 }
 
 function kingTrappedFromSouth(){
-	if (tablut.board[tablut.kingIsAt.row][tablut.kingIsAt.column + 1] === "B") return true;
+	var oneSquareSouth = tablut.board[tablut.kingIsAt.row][tablut.kingIsAt.column + 1];
+	if (oneSquareSouth === "B" || oneSquareSouth === "shaded") return true;
 }
 
 function kingTrappedFromWest(){
-	if (tablut.board[tablut.kingIsAt.row - 1][tablut.kingIsAt.column] === "B") return true;
+	var oneSquareWest = tablut.board[tablut.kingIsAt.row - 1][tablut.kingIsAt.column];
+	if (oneSquareWest === "B" || oneSquareWest === "shaded") return true;
 }
