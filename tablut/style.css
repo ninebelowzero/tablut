@@ -6,6 +6,7 @@ body {
 	font-size: 30px;
 	font-weight: bold;
 	text-align: center;
+	vertical-align: text-bottom;
 }
 
 .container {
@@ -29,7 +30,6 @@ body {
 }
 
 table {
-	margin: 0 auto;
 	border-spacing: 0;
 	border: 3px ridge #704D10;
 	border-radius: 7px;
@@ -38,10 +38,11 @@ table {
 td {
 	border-top: 1px solid #704D10;
 	border-left: 1px solid #704D10;
-	margin: 0 auto;
+	margin: 0;
 	padding: 0;
 	height: 68px;
 	width: 68px;
+	border-spacing: 0;
 }
 
 tr:first-child td {
@@ -63,9 +64,11 @@ tr td:first-child {
 }
 
 img {
-	margin-bottom: 0;
+	margin: 0;
+	padding: 0;
 	vertical-align: bottom;
 	opacity: 1;
+	box-sizing: border-box;
 }
 
 .W .K {

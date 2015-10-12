@@ -236,6 +236,8 @@ function movePieceTo($element){
 		$element.html("<img src='images/black.png'>");
 	} else if (tablut.pieceSelected === "W") {
 		$element.html("<img src='images/white.png'>");
+	} else if (tablut.pieceSelected === "K"){
+		$element.html("<img src='images/king.png'>");
 	}
 	console.log("Moving to: " + tablut.movingTo.row + ", " + tablut.movingTo.column);
 }
