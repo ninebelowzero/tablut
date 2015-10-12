@@ -41,7 +41,6 @@ function listenForClicks(){
 
 
 function clickedOn($element){
-	console.log("Clicked on: " + $element);
 	if (!tablut.gameOver){
 		if (tablut.movingFrom.toString() === ","){
 			selectPiece($element);
@@ -84,7 +83,6 @@ function unhighlight($element){
 
 
 function clickedAfterHighlighting($element){
-	console.log("Clicked on: " + $element);
 	if (identical($element)){
 		unhighlight($element);
 	} else {

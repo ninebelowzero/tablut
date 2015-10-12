@@ -41,7 +41,7 @@ td {
 	margin: 0;
 	padding: 0;
 	height: 68px;
-	width: 68px;
+	min-width: 68px;
 	border-spacing: 0;
 }
 
@@ -54,8 +54,7 @@ tr td:first-child {
 }
 
 .shaded {
-	background-color: #4E2203; /*  #662607; /* #9F5C19; */
-	opacity: 0.9;
+	background-image: url(images/dark_wood.jpg);
 }
 
 .highlighted {
@@ -64,11 +63,9 @@ tr td:first-child {
 }
 
 img {
-	margin: 0;
+	margin: 0 0 -13px 0;
 	padding: 0;
-	vertical-align: bottom;
 	opacity: 1;
-	box-sizing: border-box;
 }
 
 .W .K {
@@ -78,6 +75,4 @@ img {
 }
 
 .B {
-	margin-bottom: 0px;
-	vertical-align: bottom;
 }
