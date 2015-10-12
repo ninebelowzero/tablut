@@ -17,8 +17,6 @@ var tablut = {
 	["edge", "edge", "edge", "edge", "edge", "edge", "edge", "edge", "edge", "edge", "edge"]],
 	homeColor: "B",
 	enemyColor: "W",
-	highlighted: false,
-	$leaving: null,
 	pieceSelected: null,
 	movingFrom: [null, null],
 	moveDirection: null,
@@ -36,111 +34,107 @@ var tablut = {
 
 function listenForClicks(){
 	$("td").on("click", function(){
-		var square = $(this);
-		clickedOn(square);
+		var $square = $(this);
+		clickedOn($square);
 	})
 }
 
 
-function clickedOn(square){
+function clickedOn($square){
 	if (!tablut.gameOver){
-		if (!tablut.highlighted){
-			selectingPiece(square);
+		if (tablut.movingFrom.toString() === ","){
+			selectPiece($square);
 		} else {
-			clickedAfterHighlighting(square);
+			clickedAfterHighlighting($square);
 		}
 	}
 }
 
 
-function selectingPiece(square){
-	if (legalSelection(square)){
-		highlight(square);
-	}
-}
-
-
-function legalSelection(square){
-	if (!square.text()) return false;
-	if (square.text() === tablut.homeColor) return true;
-	if (square.text() === "K" && tablut.homeColor === "W") return true;
-}
-
-
-function highlight(square){
-	// tablut.pieceSelected.row = parseInt(square.attr("data-row"));
-	// tablut.pieceSelected.column = parseInt(square.attr("data-column"));
-
-	tablut.movingFrom[0] = parseInt(square.attr("data-row"));
-	tablut.movingFrom[1] = parseInt(square.attr("data-column"));
-
-	tablut.pieceSelected = square.text();
-	square.toggleClass("highlighted");
-	tablut.highlighted = true;
-	console.log("Selected " + tablut.pieceSelected + " at " + tablut.movingFrom);
-	tablut.$leaving = square;	
-}
-
-
-function unhighlight(square){
-	square.toggleClass("highlighted");
-	tablut.highlighted = false;
-}
-
-
-function clickedAfterHighlighting(square){
-	if (identical(square)){
-		unhighlight(square);
+function selectPiece($square){
+	tablut.movingFrom[0] = parseInt($square.attr("data-row"));
+	tablut.movingFrom[1] = parseInt($square.attr("data-column"));
+	if (legalSelection()){
+		highlight($square);	
+		tablut.pieceSelected = tablut.board[tablut.movingFrom[0]][tablut.movingFrom[1]];
+		console.log("Selected " + tablut.pieceSelected + " at " + tablut.movingFrom);
 	} else {
-		attemptMove(square);
+		tablut.movingFrom = [null, null];
 	}
 }
 
 
-function identical(square){
-	if (tablut.movingFrom[0] == square.attr("data-row") && tablut.movingFrom[1] == square.attr("data-column")) {
+function legalSelection(){
+	if (tablut.board[tablut.movingFrom[0]][tablut.movingFrom[1]] === tablut.homeColor) return true;
+	if (tablut.board[tablut.movingFrom[0]][tablut.movingFrom[1]] === "K" && tablut.homeColor === "W") return true;
+	else return false;
+}
+
+
+function highlight($square){
+	$square.toggleClass("highlighted");
+}
+
+
+function unhighlight($square){
+	$square.toggleClass("highlighted");
+	tablut.movingFrom = [null, null];
+}
+
+
+function clickedAfterHighlighting($square){
+	if (identical($square)){
+		unhighlight($square);
+	} else {
+		attemptMove($square);
+	}
+}
+
+
+function identical($square){
+	if (tablut.movingFrom[0] == parseInt($square.attr("data-row")) && tablut.movingFrom[1] == parseInt($square.attr("data-column"))) {
 		return true;
 	} 
 }
 
 
-function attemptMove(square){
-	if (legalMove(square)){
-		movePieceTo(square);
+function attemptMove($square){
+	tablut.movingTo.row = parseInt($square.attr("data-row"));
+	tablut.movingTo.column = parseInt($square.attr("data-column"));
+	if (legalMove()){
+		movePieceTo($square);
 		wipeVacated();
-		checkForCaptures(square);
+		checkForCaptures();
 		checkForWins();
 	} else {
+		tablut.movingTo.row = null;
+		tablut.movingTo.column = null;
 		console.log("Illegal move.")
 	}
 }
 
 
-function legalMove(square){
-	if (available(square) && matchesGridPosition(square) && noInterveningPieces(square)){
+function legalMove(){
+	if (available() && matchesGridPosition() && noInterveningPieces()){
 		return true;
 	}
 }
 
 
-function available(square){
-	if (square.text()){
-		console.log("Square occupied");
-		return false;
-	} else if (square.hasClass("shaded")){
-		console.log("Cannot move to shaded squares.");
-		return false;
+function available(){
+	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column] === null){
+		return true;
 	} else {
-		return true;
+		console.log("Square not available.")
 	}
 }
 
 
-function matchesGridPosition(square){
-	if (square.attr("data-row") == tablut.movingFrom[0]){
+function matchesGridPosition(){
+	if (tablut.movingTo.row === tablut.movingFrom[0]){
 		tablut.moveDirection = "horizontal";
 		return true;
-	} else if (square.attr("data-column") == tablut.movingFrom[1]){
+	} else if (tablut.movingTo.column === tablut.movingFrom[1]){
 		tablut.moveDirection = "vertical";
 		return true;
 	}
@@ -149,19 +143,19 @@ function matchesGridPosition(square){
 
 // BELOW SECTION V WET, NEEDS REFACTORING
 
-function noInterveningPieces(square){	
+function noInterveningPieces(){	
 	if (tablut.moveDirection === "horizontal"){
-		return horizontalMove(square);
+		return horizontalMove();
 	} else if (tablut.moveDirection === "vertical"){
-		return verticalMove(square);
+		return verticalMove();
 	}
 }
 
 
-function horizontalMove(square) {
+function horizontalMove() {
 
 	var comingFromColumn = tablut.movingFrom[1];
-	var goingToColumn = square.attr("data-column");
+	var goingToColumn = tablut.movingTo.column;
 
 	if (goingToColumn > comingFromColumn){
 		for (var i = comingFromColumn + 1; i < goingToColumn; i++){
@@ -186,10 +180,10 @@ function horizontalMove(square) {
 }
 
 
-function verticalMove(square){
+function verticalMove(){
 	
 	var comingFromRow = tablut.movingFrom[0];
-	var goingToRow = square.attr("data-row");
+	var goingToRow = tablut.movingTo.row;
 
 	if (goingToRow > comingFromRow){
 		for (var i = comingFromRow + 1; i < goingToRow; i++){
@@ -216,16 +210,14 @@ function verticalMove(square){
 // END OF WET CODE
 
 
-function movePieceTo(square){
-	tablut.movingTo.row = parseInt(square.attr("data-row"));
-	tablut.movingTo.column = parseInt(square.attr("data-column"));
-	console.log("Moving to: " + tablut.movingTo.row + ", " + tablut.movingTo.column);
-	square.text(tablut.pieceSelected);
+function movePieceTo($square){
 	tablut.board[tablut.movingTo.row][tablut.movingTo.column] = tablut.pieceSelected;
 	if (tablut.pieceSelected === "K"){
 		tablut.kingIsAt.row = tablut.movingTo.row;
 		tablut.kingIsAt.column = tablut.movingTo.column;
 	}
+	$square.text(tablut.pieceSelected);
+	console.log("Moving to: " + tablut.movingTo.row + ", " + tablut.movingTo.column);
 }
 
 
@@ -286,17 +278,16 @@ function lookWest(){
 
 
 function wipeVacated(){
-	tablut.$leaving.text("");
-	tablut.$leaving.toggleClass("highlighted");
+
+	var $leftSquare = $("tr:nth-child(" + tablut.movingFrom[0] + ") td:nth-child(" + tablut.movingFrom[1] + ")");
+	$leftSquare.text("");
+	$leftSquare.toggleClass("highlighted");
 	if (leavingShadedSquare() ){
 		tablut.board[tablut.movingFrom[0]][tablut.movingFrom[1]] = "shaded";
 	} else {
 		tablut.board[tablut.movingFrom[0]][tablut.movingFrom[1]] = null;
 	}
-	tablut.highlighted = null;
-	tablut.$leaving = null;
-	// tablut.pieceSelected.row = null;
-	// tablut.pieceSelected.column = null;
+	tablut.movingFrom = [null, null];
 	tablut.pieceSelected = null;
 }
 
