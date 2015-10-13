@@ -382,7 +382,7 @@ function checkForWhiteWin(){
 	if (tablut.kingIsAt.row === 1 || tablut.kingIsAt.row === 9 || tablut.kingIsAt.column === 1 || tablut.kingIsAt.column === 9) {
 		$(".status-text").text("The King escapes! White wins the game.");
 		var $winningSquare = $("tr:nth-child(" + tablut.kingIsAt.row + ") td:nth-child(" + tablut.kingIsAt.column + ")");
-		$winningSquare.css("background-color", "deppSkyBlue");
+		$winningSquare.addClass("blue");
 		tablut.gameOver = true;
 	}
 }
