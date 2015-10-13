@@ -37,6 +37,40 @@ function listenForClicks(){
 		var $element = $(this);
 		clickedOn($element);
 	})
+	$(".button").on("mousedown", function(){
+		var $element = $(this);
+		mousedown($element);
+	})
+	$(".button").on("mouseup", function(){
+		var $element = $(this);
+		mouseup($element);
+	})
+}
+
+
+function mousedown($element){
+	$element.toggleClass("clicked-button");
+}
+
+
+function mouseup($element){
+	$element.toggleClass("clicked-button");
+	console.log($element.attr("id"));
+	switch ($element.attr("id")){
+		case "#new-game":
+		break;
+		hideButtons();
+		case "#rules":
+		break;
+		case "#about-tablut":
+		break;
+	}
+}
+
+
+function hideButtons(){
+	console.log("Hiding buttons.");
+	$(".button").hide();
 }
 
 
@@ -104,7 +138,9 @@ function attemptMove($element){
 	if (legalMove()){
 		movePieceTo($element);
 		wipeVacated();
-		checkForCaptures();
+		if (tablut.pieceSelected !== "K"){
+			checkForCaptures();
+		}
 		checkForWins();
 	} else {
 		tablut.movingTo.row = null;
