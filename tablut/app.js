@@ -47,6 +47,11 @@ function listenForClicks(){
 		var $element = $(this);
 		mouseup($element);
 	})
+	$(".back-button").on("mousedown", function(){
+		var $element = $(this);
+		mousedownBackButton($element);
+	})
+	$("back-button")
 }
 
 
@@ -70,6 +75,8 @@ function mouseup($element){
 		hideButtons();
 		displayAboutTablut();
 		break;
+		case "back":
+		showMenu();
 	}
 }
 
@@ -80,9 +87,11 @@ function hideButtons(){
 }
 
 
-function showButtons(){
-	$(".buttons").show();
+function showMenu(){
+	$(".button").show();
 	$(".status-text").show();
+	$(".about-tablut").hide();
+	$(".rules").hide();	
 }
 
 

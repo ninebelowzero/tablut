@@ -8,15 +8,6 @@ body {
 	font-size: 17px;
 }
 
-
-.rules {
- 
-}
-
-.about-tablut {
-
-}
-
 li {
 	margin-bottom: 10px;
 }
@@ -44,8 +35,6 @@ li {
 }
 
 .button {
-	width: 220px;
-	margin: 30px auto;
 	border: 2px #704D10;
 	border-style: outset;
 	padding: 10px;
@@ -54,6 +43,7 @@ li {
 	background-image: url(images/copper.jpg);
 	background-size: cover;
 	text-align: center;
+
 }
 
 .clicked-button {
@@ -61,19 +51,18 @@ li {
 	background-image: url(images/dark_copper.jpg);
 }
 
-.back-button {
+.wide-button {
+	width: 220px;
+	margin: 30px auto;
+}
+
+.small-button {
 	width: 100px;
 	height: 30px;
-	margin: 30px auto;
-	border: 2px #704D10;
-	border-style: outset;
-	padding: 10px;
-	border-radius: 20px;
-	background-image: url(images/copper_arrow.jpg);
-	background-position: center;
-	background-size: cover;
 	margin-top: 0;
 	margin-right: 0;
+	margin-bottom: 20px;
+	margin-left: auto;
 }
 
 .board {
