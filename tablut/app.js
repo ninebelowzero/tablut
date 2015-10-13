@@ -2,6 +2,7 @@ $(function(){
 	listenForClicks();
 	$(".rules").hide();
 	$(".about-tablut").hide();
+	$(".small-button").hide();
 })
 
 
@@ -47,11 +48,6 @@ function listenForClicks(){
 		var $element = $(this);
 		mouseup($element);
 	})
-	$(".back-button").on("mousedown", function(){
-		var $element = $(this);
-		mousedownBackButton($element);
-	})
-	$("back-button")
 }
 
 
@@ -65,42 +61,58 @@ function mouseup($element){
 	console.log("Clicked: " + $element.attr("id"));
 	switch ($element.attr("id")){
 		case "new-game":
-		location.reload();
+		newGame();
 		break;
 		case "rules":
-		hideButtons();
 		displayRules();
 		break;
 		case "about-tablut":
-		hideButtons();
 		displayAboutTablut();
 		break;
 		case "back":
+		case "no":
 		showMenu();
+		break;
+		case "yes":
+		location.reload();
+		break;
 	}
 }
-
 
 function hideButtons(){
 	$(".button").hide();
 	$(".status-text").hide();
 }
 
-
 function showMenu(){
 	$(".button").show();
 	$(".status-text").show();
 	$(".about-tablut").hide();
 	$(".rules").hide();	
+	$(".small-button").hide();
+	if (tablut.homeColor === "B"){
+		$(".status-text").text("Black to move.");
+	} else {
+		$(".status-text").text("White to move.");
+	}
+}
+
+function newGame(){
+	$(".button").hide();
+	$(".status-text").text("Are you sure you want to quit the current game?");
+	$("#yes").show();
+	$("#no").show();
 }
 
 
 function displayAboutTablut(){
+	hideButtons();
 	$(".about-tablut").show();
 }
 
 
 function displayRules(){
+	hideButtons();
 	$(".rules").show();
 }
 

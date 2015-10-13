@@ -59,6 +59,17 @@ li {
 .small-button {
 	width: 100px;
 	height: 30px;
+}
+
+#yes, #no {
+	margin: 10px auto;
+}
+
+.wanna-quit {
+	font-size: 20px;
+}
+
+#back {
 	margin-top: 0;
 	margin-right: 0;
 	margin-bottom: 20px;
