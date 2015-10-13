@@ -1,5 +1,7 @@
 $(function(){
 	listenForClicks();
+	$(".rules").hide();
+	$(".about-tablut").hide();
 })
 
 
@@ -57,20 +59,40 @@ function mouseup($element){
 	$element.toggleClass("clicked-button");
 	console.log($element.attr("id"));
 	switch ($element.attr("id")){
-		case "#new-game":
+		case "new-game":
+		location.reload();
 		break;
+		case "rules":
 		hideButtons();
-		case "#rules":
+		displayRules();
 		break;
-		case "#about-tablut":
+		case "about-tablut":
+		hideButtons();
+		displayAboutTablut();
 		break;
 	}
 }
 
 
 function hideButtons(){
-	console.log("Hiding buttons.");
 	$(".button").hide();
+	$(".status-text").hide();
+}
+
+
+function showButtons(){
+	$(".buttons").show();
+	$(".status-text").show();
+}
+
+
+function displayAboutTablut(){
+	$(".about-tablut").show();
+}
+
+
+function displayRules(){
+	$(".rules").show();
 }
 
 

@@ -2,14 +2,27 @@ body {
 	/*background-color: AntiqueWhite;*/
 	background-image: url(images/wood1.jpg);
 	background-size: cover;
-	font-family: "Courier New";
+	font-family: "Helvetica";
 	font-weight: bold;
-	text-align: center;
-	vertical-align: text-bottom;
+	text-align: left;
+	font-size: 17px;
+}
+
+
+.rules {
+ 
+}
+
+.about-tablut {
+
+}
+
+li {
+	margin-bottom: 10px;
 }
 
 .container {
-	width: 1100px;
+	width: 1150px;
 	height: 628px;
 	margin: 50px auto;
 	/*border: 1px solid white;*/
@@ -17,17 +30,16 @@ body {
 
 .controls {
 	height: 626px;
-	width: 350px;
+	width: 400px;
 	/*border: 1px solid blue;*/
 	float: left;
 }
 
 .status-text {
-	width: 350px;
-	height: 100px;
+	width: 400px;
 	margin: 50px auto;
 	font-size: 20px;
-	vertical-align: center;
+	text-align: center;
 	/*border: 1px solid pink;*/
 }
 
@@ -41,6 +53,7 @@ body {
 	border-radius: 20px;
 	background-image: url(images/copper.jpg);
 	background-size: cover;
+	text-align: center;
 }
 
 .clicked-button {
