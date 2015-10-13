@@ -248,49 +248,69 @@ function checkForCaptures(square){
 }
 
 function lookNorth(){
-	if (tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] === tablut.enemyColor){
-		var $checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row - 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
-		var $checkingPiece = $("tr:nth-child(" + (tablut.movingTo.row - 1) + ") td:nth-child(" + tablut.movingTo.column + ") > img");
+	var arrayPosition = tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column];
+	if (arrayPosition === tablut.enemyColor){
+		var $square = $("tr:nth-child(" + (tablut.movingTo.row - 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
+		var $piece = $("tr:nth-child(" + (tablut.movingTo.row - 1) + ") td:nth-child(" + tablut.movingTo.column + ") > img");
 		var nextSquare = tablut.board[tablut.movingTo.row - 2][tablut.movingTo.column];
 		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
-			tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] = null;
-			capture($checkingSquare, $checkingPiece);
+			if ($square.hasClass("shaded")){
+				tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] = "shaded";
+			}	else {	
+				tablut.board[tablut.movingTo.row - 1][tablut.movingTo.column] = null;
+			}
+			capture($square, $piece);
 		}
 	} 
 }
 
 function lookEast(){
-	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] === tablut.enemyColor){
-		var $checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column + 1) + ")");
-		var $checkingPiece = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column + 1) + ") > img");
+	var arrayPosition = tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1];
+	if (arrayPosition === tablut.enemyColor){
+		var $square = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column + 1) + ")");
+		var $piece = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column + 1) + ") > img");
 		var nextSquare = tablut.board[tablut.movingTo.row][tablut.movingTo.column + 2];
 		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
-			tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] = null;
-			capture($checkingSquare, $checkingPiece);
+			if ($square.hasClass("shaded")){
+				tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] = "shaded";
+			} else {
+				tablut.board[tablut.movingTo.row][tablut.movingTo.column + 1] = null;
+			}
+			capture($square, $piece);
 		}
 	}
 }
 
 function lookSouth(){
-	if (tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] === tablut.enemyColor){
-		var $checkingSquare = $("tr:nth-child(" + (tablut.movingTo.row + 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
-		var $checkingPiece = $("tr:nth-child(" + (tablut.movingTo.row + 1) + ") td:nth-child(" + tablut.movingTo.column + ") > img");
+	var arrayPosition = tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column];
+	if (arrayPosition === tablut.enemyColor){
+		var $square = $("tr:nth-child(" + (tablut.movingTo.row + 1) + ") td:nth-child(" + tablut.movingTo.column + ")");
+		var $piece = $("tr:nth-child(" + (tablut.movingTo.row + 1) + ") td:nth-child(" + tablut.movingTo.column + ") > img");
 		var nextSquare = tablut.board[tablut.movingTo.row + 2][tablut.movingTo.column];
 		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
-			tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] = null;
-			capture($checkingSquare, $checkingPiece);
+			if ($square.hasClass("shaded")){
+				tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] = "shaded";
+			} else {
+				tablut.board[tablut.movingTo.row + 1][tablut.movingTo.column] = null;
+			}
+			capture($square, $piece);
 		}
 	}
 }
 
 function lookWest(){
-	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] === tablut.enemyColor){
-		var $checkingSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column - 1) + ")");
-		var $checkingPiece = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column - 1) + ") > img");
+	var arrayPosition = tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1];
+	if (arrayPosition === tablut.enemyColor){
+		var $square = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column - 1) + ")");
+		var $piece = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + (tablut.movingTo.column - 1) + ") > img");
 		var nextSquare = tablut.board[tablut.movingTo.row][tablut.movingTo.column - 2];
 		if (nextSquare === tablut.homeColor || nextSquare === "shaded"){
-			tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] = null;
-			capture($checkingSquare, $checkingPiece);
+			if ($square.hasClass("shaded")){
+				tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] = "shaded";
+			} else {
+				tablut.board[tablut.movingTo.row][tablut.movingTo.column - 1] = null;
+			}
+			capture($square, $piece);
 		}
 	}
 }
@@ -361,7 +381,7 @@ function switchTurns(){
 function checkForWhiteWin(){
 	if (tablut.kingIsAt.row === 1 || tablut.kingIsAt.row === 9 || tablut.kingIsAt.column === 1 || tablut.kingIsAt.column === 9) {
 		$(".status-text").text("The King escapes! White wins the game.");
-		var $winningSquare = $("tr:nth-child(" + tablut.movingTo.row + ") td:nth-child(" + tablut.movingTo.column + ")");
+		var $winningSquare = $("tr:nth-child(" + tablut.kingIsAt.row + ") td:nth-child(" + tablut.kingIsAt.column + ")");
 		$winningSquare.css("background-color", "deppSkyBlue");
 		tablut.gameOver = true;
 	}
