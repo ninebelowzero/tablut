@@ -5,7 +5,6 @@ $(function(){
 	$(".small-button").hide();
 })
 
-
 var tablut = {
 	board: [["edge", "edge", "edge", "edge", "edge", "edge", "edge", "edge", "edge", "edge", "edge"],
 	["edge", null, null, null, "B", "B", "B", null, null, null, "edge"],
@@ -34,7 +33,6 @@ var tablut = {
 	gameOver: false
 };
 
-
 function listenForClicks(){
 	$("td").on("click", function(){
 		var $element = $(this);
@@ -50,15 +48,12 @@ function listenForClicks(){
 	})
 }
 
-
 function mousedown($element){
 	$element.toggleClass("clicked-button");
 }
 
-
 function mouseup($element){
 	$element.toggleClass("clicked-button");
-	console.log("Clicked: " + $element.attr("id"));
 	switch ($element.attr("id")){
 		case "new-game":
 		newGame();
@@ -116,7 +111,6 @@ function displayRules(){
 	$(".rules").show();
 }
 
-
 function clickedOn($element){
 	if (!tablut.gameOver){
 		if (tablut.movingFrom.toString() === ","){
@@ -127,19 +121,16 @@ function clickedOn($element){
 	}
 }
 
-
 function selectPiece($element){
 	tablut.movingFrom[0] = parseInt($element.attr("data-row"));
 	tablut.movingFrom[1] = parseInt($element.attr("data-column"));
 	if (legalSelection()){
 		highlight($element);	
 		tablut.pieceSelected = tablut.board[tablut.movingFrom[0]][tablut.movingFrom[1]];
-		console.log("Selected " + tablut.pieceSelected + " at " + tablut.movingFrom);
 	} else {
 		tablut.movingFrom = [null, null];
 	}
 }
-
 
 function legalSelection(){
 	if (tablut.board[tablut.movingFrom[0]][tablut.movingFrom[1]] === tablut.homeColor) return true;
@@ -147,17 +138,14 @@ function legalSelection(){
 	else return false;
 }
 
-
 function highlight($element){
 	$element.toggleClass("highlighted");
 }
-
 
 function unhighlight($element){
 	$element.toggleClass("highlighted");
 	tablut.movingFrom = [null, null];
 }
-
 
 function clickedAfterHighlighting($element){
 	if (identical($element)){
@@ -167,13 +155,11 @@ function clickedAfterHighlighting($element){
 	}
 }
 
-
 function identical($element){
 	if (tablut.movingFrom[0] == parseInt($element.attr("data-row")) && tablut.movingFrom[1] == parseInt($element.attr("data-column"))) {
 		return true;
 	} 
 }
-
 
 function attemptMove($element){
 	tablut.movingTo.row = parseInt($element.attr("data-row"));
@@ -188,10 +174,8 @@ function attemptMove($element){
 	} else {
 		tablut.movingTo.row = null;
 		tablut.movingTo.column = null;
-		console.log("Illegal move.")
 	}
 }
-
 
 function legalMove(){
 	if (matchesGridPosition() && available() && noInterveningPieces()){
@@ -199,14 +183,10 @@ function legalMove(){
 	}
 }
 
-
 function available(){
 	if (tablut.board[tablut.movingTo.row][tablut.movingTo.column] === null) return true;
 	if (shadyShortMove()) return true;
 }
-
-
-
 
 function matchesGridPosition(){
 	if (tablut.movingTo.row === tablut.movingFrom[0]){
@@ -217,7 +197,6 @@ function matchesGridPosition(){
 		return true;
 	}
 }
-
 
 function shadyShortMove(){
 	if (leavingShadedSquare() && shortMove()){
@@ -232,9 +211,6 @@ function shortMove() {
 	if (tablut.movingFrom[1] - tablut.movingTo.column > 0 && tablut.movingFrom[1] - tablut.movingTo.column < 3) return true;
 }
 
-
-// BELOW SECTION V WET, NEEDS REFACTORING
-
 function noInterveningPieces(){	
 	if (tablut.moveDirection === "horizontal"){
 		return horizontalMove();
@@ -242,7 +218,6 @@ function noInterveningPieces(){
 		return verticalMove();
 	}
 }
-
 
 function horizontalMove() {
 
@@ -253,7 +228,6 @@ function horizontalMove() {
 		for (var i = comingFromColumn + 1; i < goingToColumn; i++){
 			var intermediateSquare = tablut.board[tablut.movingFrom[0]][i];
 			if (intermediateSquare === "B" || intermediateSquare === "W" || intermediateSquare === "K"){
-				console.log("There are intervening pieces.")
 				return false;
 			}
 		}
@@ -263,14 +237,12 @@ function horizontalMove() {
 		for (var i = comingFromColumn - 1; i > goingToColumn; i--){
 			var intermediateSquare = tablut.board[tablut.movingFrom[0]][i];
 			if (intermediateSquare === "B" || intermediateSquare === "W" || intermediateSquare === "K"){
-				console.log("There are intervening pieces.")
 				return false;
 			}
 		}
 		return true;
 	}
 }
-
 
 function verticalMove(){
 	
@@ -281,7 +253,6 @@ function verticalMove(){
 		for (var i = comingFromRow + 1; i < goingToRow; i++){
 			var intermediateSquare = tablut.board[i][tablut.movingFrom[1]];
 			if (intermediateSquare === "B" || intermediateSquare === "W" || intermediateSquare === "K"){
-				console.log("There are intervening pieces.")
 				return false;
 			}
 		}
@@ -291,16 +262,12 @@ function verticalMove(){
 		for (var i = comingFromRow - 1; i > goingToRow; i--){
 			var intermediateSquare = tablut.board[i][tablut.movingFrom[1]];
 			if (intermediateSquare === "B" || intermediateSquare === "W" || intermediateSquare === "K"){
-				console.log("There are intervening pieces.")
 				return false;
 			}
 		}
 		return true;
 	}
 }
-
-// END OF WET CODE
-
 
 function movePieceTo($element){
 	tablut.board[tablut.movingTo.row][tablut.movingTo.column] = tablut.pieceSelected;
@@ -315,9 +282,7 @@ function movePieceTo($element){
 	} else if (tablut.pieceSelected === "K"){
 		$element.html("<img src='images/king.png'>");
 	}
-	console.log("Moving to: " + tablut.movingTo.row + ", " + tablut.movingTo.column);
 }
-
 
 function checkForCaptures(square){
 	lookNorth();
@@ -403,7 +368,6 @@ function capture($square, $piece){
 	}, 400);
 }
 
-
 function wipeVacated(){
 
 	var $leftSquare = $("tr:nth-child(" + tablut.movingFrom[0] + ") td:nth-child(" + tablut.movingFrom[1]);
@@ -419,15 +383,12 @@ function wipeVacated(){
 	tablut.pieceSelected = null;
 }
 
-
 function leavingShadedSquare(){
 	var shadedSquares = ["1,4" , "1,5" , "1,6" , "2,5" , "4,1" , "4,9" , "5,1" , "5,2" , "5,5" , "5,8" , "5,9" , "6,1" , "6,9" , "8,5" , "9,4" , "9,5" , "9,6"]
 	if (shadedSquares.indexOf(tablut.movingFrom.toString()) !== -1){
-		console.log("Leaving shaded square.");
 		return true;
 	}
 }
-
 
 function checkForWins(){
 	checkForWhiteWin();
@@ -436,7 +397,6 @@ function checkForWins(){
 		switchTurns();
 	}
 }
-
 
 function switchTurns(){
 	tablut.moveDirection = null;
@@ -456,7 +416,6 @@ function switchTurns(){
 	}
 }
 
-
 function checkForWhiteWin(){
 	if (tablut.kingIsAt.row === 1 || tablut.kingIsAt.row === 9 || tablut.kingIsAt.column === 1 || tablut.kingIsAt.column === 9) {
 		$(".status-text").text("The King escapes! White wins the game.");
@@ -465,7 +424,6 @@ function checkForWhiteWin(){
 		tablut.gameOver = true;
 	}
 }
-
 
 function checkForBlackWin(){
 	if (kingTrappedFromNorth() && kingTrappedFromEast() && kingTrappedFromWest() && kingTrappedFromSouth()){
