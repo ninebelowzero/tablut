@@ -57,7 +57,7 @@ function mousedown($element){
 
 function mouseup($element){
 	$element.toggleClass("clicked-button");
-	console.log($element.attr("id"));
+	console.log("Clicked: " + $element.attr("id"));
 	switch ($element.attr("id")){
 		case "new-game":
 		location.reload();

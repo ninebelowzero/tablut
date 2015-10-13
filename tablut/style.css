@@ -61,6 +61,21 @@ li {
 	background-image: url(images/dark_copper.jpg);
 }
 
+.back-button {
+	width: 100px;
+	height: 30px;
+	margin: 30px auto;
+	border: 2px #704D10;
+	border-style: outset;
+	padding: 10px;
+	border-radius: 20px;
+	background-image: url(images/copper_arrow.jpg);
+	background-position: center;
+	background-size: cover;
+	margin-top: 0;
+	margin-right: 0;
+}
+
 .board {
 	margin: 0 50px;
 	width: 626px;
