@@ -10,23 +10,34 @@ body {
 }
 
 .container {
-	margin: 30px auto;
+	width: 980px;
+	height: 628px;
+	margin: 50px auto;
+	border: 1px solid white;
+}
+
+.controls {
+	height: 626px;
+	max-width: 350px;
+	border: 1px solid blue;
+	float: left;
 }
 
 .status-text {
-	width: 600px;
-	height: 50px;
-	margin: auto auto;
+	width: 350px;
+	height: 100px;
+	margin: 50px auto;
 	font-size: 20px;
 	vertical-align: center;
+	border: 1px solid pink;
 }
 
 .board {
-	position: relative;
-	margin: 0 auto;
-	width: 600px;
-	height: 600px;
-	/*border: 1px solid red;*/
+	margin: 0;
+	width: 626px;
+	height: 626px;
+	border: 1px solid red;
+	float: left;
 }
 
 table {
@@ -76,13 +87,4 @@ img {
 	margin: 0 0 -13px 0;
 	padding: 0;
 	opacity: 1;
-}
-
-.W .K {
-/*	position: absolute;
-	left: 256px;
-	top: 240px;*/
-}
-
-.B {
 }
