@@ -1,0 +1,18 @@
+<li>
+All pieces, including the White King, move like the rook in chess (any number of squares vertically or horizontally in any direction; there are no diagonal moves). No piece can jump over another.
+</li>
+<li>
+White wins by moving the King to the edge of the board. Black wins by surrounding the King on all four sides.
+</li>
+<li>
+Any piece other than the King can be captured by trapping it between two enemy pieces - either from above and below or from the left and the right. The captured piece is then removed from the board.
+</li>
+<li>
+It is also possible to capture a piece by trapping it against one of the 17 shaded squares. Black can win by surrounding the King on two or three sides if the others are blocked by shaded squares.
+</li>
+<li>
+The King is can neither capture nor be captured in the ordinary way.
+</li>
+<li>
+Once the shaded squares have been vacated by the pieces that start there, they can never be reoccupied. Black pieces can, however, move around within their own base camps. Any piece can pass through the shaded squares without stopping there.
+</li>
